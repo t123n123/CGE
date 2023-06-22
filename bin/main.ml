@@ -34,6 +34,10 @@ let string_of_playerstate (player : playerstate) : string =
   ^ string_of_cardlist player.board
   ^ "\n\n"
 
+let string_of_players (players : playerstate list) : string = 
+  List.fold_left (fun x y -> (x ^ "\n" ^ y)) "" (List.map string_of_playerstate players)
+
+
 let rec replace list index new_value =
   if index == 0 then new_value :: List.tl list
   else List.hd list :: replace (List.tl list) (index - 1) new_value
@@ -57,6 +61,8 @@ let play_card (player_nr : int) (card_nr : int) (players : playerstate list) : p
   let new_hand = remove player.hand card_nr in
   let new_board = card :: player.board in 
   card.battlecry (replace players player_nr { player with hand = new_hand; board = new_board})
+
+let end_turn (players : playerstate list) : playerstate list = (List.tl players) @ [List.hd players]
 
 let a =
   {
@@ -85,7 +91,15 @@ let game =
       hand = [ a ];
       board = [ b ];
     };
+    {
+      hp = 30;
+      mana = 0;
+      max_mana = 0;
+      deck = [ b ];
+      hand = [ a ];
+      board = [ b ];
+    };
   ]
 
-let game2 = play_card 0 0 game  
-let () = let _ = print_endline(string_of_playerstate (List.hd game)) in print_endline (string_of_playerstate (List.hd game2))
+let game2 = play_card 0 0 (end_turn (play_card 0 0 game))  
+let () = let _ = print_endline(string_of_players game) in print_endline (string_of_players game2)
