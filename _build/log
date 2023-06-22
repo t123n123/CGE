@@ -1,0 +1,5 @@
+# dune init project CGE
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Workspace root: /home/mihai/CGE
+# Auto-detected concurrency: 12

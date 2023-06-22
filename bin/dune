@@ -1,0 +1,4 @@
+(executable
+ (public_name CGE)
+ (name main)
+ (libraries CGE))
