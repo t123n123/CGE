@@ -1,8 +1,0 @@
-lib: [
-  "_build/install/default/lib/CGE/META"
-  "_build/install/default/lib/CGE/dune-package"
-  "_build/install/default/lib/CGE/opam"
-]
-bin: [
-  "_build/install/default/bin/CGE"
-]
