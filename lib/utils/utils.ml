@@ -20,5 +20,5 @@ let remove (index : int) (list : 'a list) =
 
 
 let make_new_number = 
-  let counter = ref 0 in 
+  let counter = ref (-1) in 
   fun () -> let _ = (counter := !counter + 1) in !counter

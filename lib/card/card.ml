@@ -7,7 +7,7 @@ let string_of_card (card : card_instance) : string =
   ^ " Stats: "
   ^ string_of_int !card.card.attack
   ^ "/"
-  ^ string_of_int !card.card.health
+  ^ string_of_int !card.card_hp
 
 let string_of_cardlist (cards : card_instance list) : string =
   List.fold_left
@@ -17,4 +17,4 @@ let string_of_cardlist (cards : card_instance list) : string =
 
 let make (card : card) (owner : int) : card_instance =
   let card_id = make_new_number () in
-  ref { card; owner; card_id; card_counters = Counter.empty }
+  ref { card; owner; card_id; card_counters = Counter.empty; card_hp = card.health}

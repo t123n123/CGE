@@ -25,7 +25,9 @@ let process_event event state =
   List.fold_left
     (fun state trigger ->
       if (fst @@ snd trigger) event (fst trigger) then
-        apply_action (snd @@ snd trigger) state [(Card (fst trigger))]
+        match (snd @@ snd trigger) with 
+          | Self f -> apply_action (f (Card(fst trigger))) state
+          | x -> apply_action x state 
       else state)
     state triggers
 

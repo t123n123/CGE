@@ -10,7 +10,7 @@ type card = {
   triggers : trigger list;
 }
 
-and card_data = { card : card; mutable owner : int; card_id : int ; mutable card_counters : int Counter.t }
+and card_data = { card : card; mutable owner : int; card_id : int ; mutable card_counters : int Counter.t; card_hp : int; }
 and card_instance = card_data ref
 
 and event_checker = (event -> card_instance -> bool)
@@ -24,8 +24,10 @@ and event =
 
 and target = Card of card_instance | Player of int
 
+
 and action =
   | Instant of (gamestate -> gamestate)
+  | Self of (target -> action)
   | Targetted of (target -> action)
 
 and playerstate = {

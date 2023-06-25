@@ -46,11 +46,11 @@ let deal_damage dmg target =
                     { player with hp = player.hp - dmg} 
                   } in 
                   new_state 
-    | Card _ -> state  
+    | Card c -> let _ = c := {(!c) with card_hp = ((!c).card_hp - dmg)} in state
   )
 
 let do_self change_function =
-  Targetted
+  Self
     (fun card_inst ->
       Instant
         (fun x ->

@@ -1,5 +1,7 @@
 (library
  (name CGE)
- (public_name CGE))
+ (public_name CGE)
+ (preprocess
+  (pps ppx_deriving.show)))
 
 (include_subdirs unqualified)
