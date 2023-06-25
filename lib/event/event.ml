@@ -46,7 +46,7 @@ let deal_damage dmg target =
                     { player with hp = player.hp - dmg} 
                   } in 
                   new_state 
-    | Card x -> state  
+    | Card _ -> state  
   )
 
 let do_self change_function =

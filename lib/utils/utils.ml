@@ -17,3 +17,8 @@ let remove (index : int) (list : 'a list) =
         else aux (index - 1) tail (head :: acc)
   in
   aux index list []
+
+
+let make_new_number = 
+  let counter = ref 0 in 
+  fun () -> let _ = (counter := !counter + 1) in !counter

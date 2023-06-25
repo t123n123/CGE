@@ -20,5 +20,3 @@ card "Fire Fly" {
     tribes = ["Elemental"]
     battlecry = do add_card_to_hand @owner "Flame Elemental"  
 }
-
-

@@ -73,3 +73,6 @@ let end_turn (player_number : int) (game : gamestate) : gamestate =
       print_endline @@ "Player " ^ string_of_int player_number ^ " turn ended";
       { new_game with current_player = (player_number + 1) mod 2 }
   | _ -> game
+
+
+
