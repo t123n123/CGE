@@ -21,7 +21,18 @@ let card_drawer =
     attack = 7;
     cost = 4;
     tribes = ["Demon"];
-    triggers = [ (card_drawn, Instant (end_turn 0)) ];
+    triggers = [ (check_and card_drawn on_board , Instant (end_turn 0)) ];
+    card_type = Minion;
+  }
+
+let emerald_reaver = 
+  {
+    name = "Emerald Reaver";
+    health = 1;
+    attack = 2;
+    cost = 1;
+    tribes = ["Beast"];
+    triggers = [ battlecry, ((deal_damage (1) (Player 0)) <*> (deal_damage (1) (Player 1)))];
     card_type = Minion;
   }
 
@@ -32,14 +43,19 @@ let elemental_watcher =
     attack = 1;
     cost = 1;
     tribes = ["Elemental"];
-    triggers = [ ((fun ev c -> (card_type_played "Elemental" ev c) && not (battlecry ev c)), Instant (end_turn 0)) ];
+    triggers = [ (battlecry , enter_board);
+      (check_and battlecry played_elemental_lastturn, Instant (draw_card 0));
+      (end_own_turn, pass_turn_elemental);
+      ((check_and(card_type_played "Elemental") (check_not (battlecry))), played_elemental)];
     card_type = Minion;
   }
+
 
 
 let drawer = { card = card_drawer; owner = 0; card_id = 0; card_counters = Counter.empty}
 let a = { card = novice; owner = 0; card_id = 0; card_counters = Counter.empty}
 let elem_watcher = {card = elemental_watcher; owner = 0; card_id = 3; card_counters = Counter.empty}
+let emer_reaver = {card = emerald_reaver; owner = 0; card_id = 7; card_counters = Counter.empty}
 
 let auctioneer =
   {
@@ -76,25 +92,29 @@ let game =
           hp = 30;
           mana = 0;
           max_mana = 0;
-          deck = [ b; b; b ];
-          hand = [ elem_watcher; {elem_watcher with card_id = 4}; a ];
-          board = [ drawer ];
+          deck = [ref c];
+          hand = [ref emer_reaver; ref elem_watcher];
+          board = [];
         };
         {
           player_id = 1;
           hp = 30;
           mana = 0;
           max_mana = 0;
-          deck = [ b2 ];
-          hand = [ a ];
-          board = [ b2 ];
+          deck = [ ];
+          hand = [ ];
+          board = [ ];
         };
       ];
     current_player = 0;
   }
 
-let game2 = lazy (play_card 0 0 (play_card 0 0 game))
+
+
 
 let () =
   let _ = print_endline @@ string_of_gamestate game in
+  let game1 = (play_card 0 0 game) in
+  let _ = print_endline @@ string_of_gamestate (game1) in 
+  let game2 = lazy (play_card 0 0 (end_turn 1 (end_turn 0 game1))) in
   print_endline @@ string_of_gamestate (Lazy.force game2)

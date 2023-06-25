@@ -10,13 +10,17 @@ type card = {
   triggers : trigger list;
 }
 
-and card_instance = { card : card; owner : int; card_id : int ; card_counters : int Counter.t }
-and trigger = (event -> card_instance -> bool) * action
+and card_data = { card : card; mutable owner : int; card_id : int ; mutable card_counters : int Counter.t }
+and card_instance = card_data ref
+
+and event_checker = (event -> card_instance -> bool)
+and trigger = event_checker * action
 
 and event =
   | CardPlayed of card_instance
   | CardDeath of card_instance
   | CardDrawn of card_instance
+  | EndTurn of int
 
 and target = Card of card_instance | Player of int
 

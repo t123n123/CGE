@@ -1,0 +1,24 @@
+
+
+on "TurnStart" player 
+    player.max_mana = max (player.max_mana + 1, 10)
+    player.mana = player.mana 
+    do draw_card player 
+
+
+card "Flame Elemental" {
+    cost = 1
+    hp = 2
+    attack 1 
+    tribes = ["Elemental"]
+}
+
+card "Fire Fly" {
+    cost = 1
+    hp = 2
+    attack 1 
+    tribes = ["Elemental"]
+    battlecry = do add_card_to_hand @owner "Flame Elemental"  
+}
+
+

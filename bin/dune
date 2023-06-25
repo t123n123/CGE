@@ -1,3 +1,6 @@
+(env 
+ (dev (flags (-g)))
+) 
 (executables
  (public_names CGE)
  (names main)

@@ -10,8 +10,12 @@ let string_of_gamestate (game : gamestate) : string =
 let get_player_triggers (player : playerstate) =
   List.fold_left ( @ ) []
     (List.map
-       (fun (x : card_instance) -> List.map (fun y -> (x, y)) x.card.triggers)
+       (fun (x : card_instance) -> List.map (fun y -> (x, y)) (!x).card.triggers)
        player.board)
+  @ List.fold_left ( @ ) []
+      (List.map
+         (fun (x : card_instance) -> List.map (fun y -> (x, y)) (!x).card.triggers)
+         player.hand)
 
 let get_all_triggers (state : gamestate) =
   List.fold_left (fun ls pl -> ls @ get_player_triggers pl) [] state.players
@@ -21,7 +25,7 @@ let process_event event state =
   List.fold_left
     (fun state trigger ->
       if (fst @@ snd trigger) event (fst trigger) then
-        apply_action (snd @@ snd trigger) state []
+        apply_action (snd @@ snd trigger) state [(Card (fst trigger))]
       else state)
     state triggers
 
@@ -54,7 +58,7 @@ let play_card (player_nr : int) (card_nr : int) (game : gamestate) : gamestate =
             player with
             hand = new_hand;
             board = new_board;
-            mana = player.mana - card.card.cost;
+            mana = player.mana - (!card).card.cost;
           };
     }
   in
@@ -64,6 +68,8 @@ let play_card (player_nr : int) (card_nr : int) (game : gamestate) : gamestate =
 let end_turn (player_number : int) (game : gamestate) : gamestate =
   match player_number with
   | x when x = game.current_player ->
+      let event = EndTurn player_number in 
+      let new_game = process_event event game in
       print_endline @@ "Player " ^ string_of_int player_number ^ " turn ended";
-      { game with current_player = (player_number + 1) mod 2 }
+      { new_game with current_player = (player_number + 1) mod 2 }
   | _ -> game
