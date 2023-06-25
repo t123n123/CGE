@@ -1,13 +1,19 @@
-let replace list index new_value =
-  let rec aux list index new_value acc =
+let replace index list new_value =
+  let rec aux index list acc =
     match list with
     | [] -> List.rev acc
     | head :: tail ->
-        if index == 0 then aux tail (index - 1) new_value (new_value :: acc)
-        else aux tail (index - 1) new_value (head :: acc)
+        if index == 0 then List.rev_append (new_value :: acc) tail
+        else aux (index - 1) tail (head :: acc)
   in
-  aux list index new_value []
+  aux index list []
 
-let rec remove list index =
-  if index == 0 then List.tl list
-  else List.hd list :: remove (List.tl list) (index - 1)
+let remove (index : int) (list : 'a list) =
+  let rec aux index list acc =
+    match list with
+    | [] -> List.rev acc
+    | head :: tail ->
+        if index == 0 then List.rev_append acc tail
+        else aux (index - 1) tail (head :: acc)
+  in
+  aux index list []

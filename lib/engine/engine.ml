@@ -33,7 +33,7 @@ let draw_card (player_nr : int) (players : gamestate) : gamestate =
     {
       players with
       players =
-        Utils.replace players.players player_nr
+        Utils.replace player_nr players.players
           { player with deck = new_deck; hand = new_hand };
     }
   in
@@ -43,13 +43,13 @@ let draw_card (player_nr : int) (players : gamestate) : gamestate =
 let play_card (player_nr : int) (card_nr : int) (game : gamestate) : gamestate =
   let player = List.nth game.players player_nr in
   let card = List.nth player.hand card_nr in
-  let new_hand = Utils.remove player.hand card_nr in
+  let new_hand = Utils.remove card_nr player.hand in
   let new_board = card :: player.board in
   let new_game =
     {
       game with
       players =
-        Utils.replace game.players player_nr
+        Utils.replace player_nr game.players
           {
             player with
             hand = new_hand;
