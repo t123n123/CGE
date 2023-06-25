@@ -1,4 +1,7 @@
-(executable
- (public_name CGE)
- (name main)
- (libraries CGE))
+(executables
+ (public_names CGE)
+ (names main)
+ (libraries CGE)
+ (modes byte)
+ (preprocess
+  (pps ppx_deriving.show)))

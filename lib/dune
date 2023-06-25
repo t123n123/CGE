@@ -1,2 +1,5 @@
 (library
- (name CGE))
+ (name CGE)
+ (public_name CGE))
+
+(include_subdirs unqualified)
