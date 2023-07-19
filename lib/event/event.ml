@@ -1,9 +1,11 @@
 open BaseTypes
 
 (* Event trigger checker *)
-let check_and f1 f2 ev c = f1 ev c && f2 ev c
-let check_or f1 f2 ev c = f1 ev c || f2 ev c
-let check_not f1 ev c = not (f1 ev c)
+
+let (&@) ec1 ec2 = fun ev c -> (ec1 ev c) && (ec2 ev c)
+let (|@) ec1 ec2 = fun ev c -> (ec1 ev c) || (ec2 ev c)
+let (!@) ec1     = fun ev c -> not (ec1 ev c) 
+
 
 let battlecry ev (c : card_instance) : bool =
   match ev with CardPlayed card -> !card.card_id == !c.card_id | _ -> false

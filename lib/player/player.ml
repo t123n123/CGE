@@ -1,5 +1,5 @@
 let string_of_playerstate (player : BaseTypes.playerstate) : string =
-  "Player : \n" ^ "HP: " ^ string_of_int player.hp ^ "\n" ^ "Hand: "
+  "Player : " ^ string_of_int player.player_id ^"\n" ^ "HP: " ^ string_of_int player.hp ^ "\n" ^ "Hand: "
   ^ Card.string_of_cardlist player.hand
   ^ "\n\n" ^ "Deck: "
   ^ Card.string_of_cardlist player.deck

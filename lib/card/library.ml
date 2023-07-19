@@ -21,7 +21,7 @@ let card_drawer =
     attack = 7;
     cost = 4;
     tribes = [ "Demon" ];
-    triggers = [ (check_and card_drawn on_board, Instant (end_turn 0)) ];
+    triggers = [ (card_drawn &@ on_board, Instant (end_turn 0)) ];
     card_type = Minion;
   }
 
@@ -47,9 +47,9 @@ let elemental_watcher =
     triggers =
       [
         (battlecry, enter_board);
-        (check_and battlecry played_elemental_lastturn, Instant (draw_card 0));
+        (battlecry &@ played_elemental_lastturn, Instant (draw_card 0));
         (end_own_turn, pass_turn_elemental);
-        ( check_and (card_type_played "Elemental") (check_not battlecry),
+        ( (card_type_played "Elemental") &@ (!@ battlecry),
           played_elemental );
       ];
     card_type = Minion;
