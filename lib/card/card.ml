@@ -17,4 +17,11 @@ let string_of_cardlist (cards : card_instance list) : string =
 
 let make (card : card) (owner : int) : card_instance =
   let card_id = make_new_number () in
-  ref { card; owner; card_id; card_counters = Counter.empty; card_hp = card.health}
+  ref
+    {
+      card;
+      owner;
+      card_id;
+      card_counters = Counter.empty;
+      card_hp = card.health;
+    }

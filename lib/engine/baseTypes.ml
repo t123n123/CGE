@@ -1,4 +1,4 @@
-module Counter = Map.Make(String)
+module Counter = Map.Make (String)
 
 type card = {
   name : string;
@@ -10,10 +10,16 @@ type card = {
   triggers : trigger list;
 }
 
-and card_data = { card : card; mutable owner : int; card_id : int ; mutable card_counters : int Counter.t; card_hp : int; }
-and card_instance = card_data ref
+and card_data = {
+  card : card;
+  mutable owner : int;
+  card_id : int;
+  mutable card_counters : int Counter.t;
+  card_hp : int;
+}
 
-and event_checker = (event -> card_instance -> bool)
+and card_instance = card_data ref
+and event_checker = event -> card_instance -> bool
 and trigger = event_checker * action
 
 and event =
@@ -23,7 +29,6 @@ and event =
   | EndTurn of int
 
 and target = Card of card_instance | Player of int
-
 
 and action =
   | Instant of (gamestate -> gamestate)
@@ -39,5 +44,6 @@ and playerstate = {
   hand : card_instance list;
   board : card_instance list;
 }
+
 (* Maybe make a map for each "card zone" for each player*)
 and gamestate = { players : playerstate list; current_player : int }

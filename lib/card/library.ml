@@ -49,8 +49,7 @@ let elemental_watcher =
         (battlecry, enter_board);
         (battlecry &@ played_elemental_lastturn, Instant (draw_card 0));
         (end_own_turn, pass_turn_elemental);
-        ( (card_type_played "Elemental") &@ (!@ battlecry),
-          played_elemental );
+        (card_type_played "Elemental" &@ !@battlecry, played_elemental);
       ];
     card_type = Minion;
   }
@@ -84,6 +83,6 @@ let fireball =
     attack = 0;
     cost = 4;
     tribes = [ "Fire" ];
-    triggers = [ (battlecry, Targetted (deal_damage 6))];
+    triggers = [ (battlecry, Targetted (deal_damage 6)) ];
     card_type = Spell;
   }

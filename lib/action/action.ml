@@ -9,7 +9,8 @@ let rec ( <*> ) (a1 : action) (a2 : action) : action =
   | Targetted f1, _ -> Targetted (fun action -> f1 action <*> a2)
   | _, Targetted f2 -> Targetted (fun action -> a1 <*> f2 action)
   | Self f1, _ -> Self (fun action -> f1 action <*> a2)
-  | _ , Self f2 -> Self (fun action -> a1 <*> f2 action) (* This only happens when first is Instant *)
+  (* This only happens when first is Instant *)
+  | _, Self f2 -> Self (fun action -> a1 <*> f2 action)
 
 let get_all_targets state =
   List.map (fun x -> (x.player_id, Player x.player_id)) state.players
