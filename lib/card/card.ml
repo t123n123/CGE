@@ -8,6 +8,9 @@ let string_of_card (card : card_instance) : string =
   ^ string_of_int !card.card.attack
   ^ "/"
   ^ string_of_int !card.card_hp
+  (* ^ " ID: "
+  ^ string_of_int !card.card_id
+  ^ " Owner: " ^ string_of_int !card.owner *)
 
 let string_of_cardlist (cards : card_instance list) : string =
   List.fold_left

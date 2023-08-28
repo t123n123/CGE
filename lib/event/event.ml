@@ -10,7 +10,7 @@ let battlecry ev (c : card_instance) : bool =
   match ev with CardPlayed card -> !card.card_id == !c.card_id | _ -> false
 
 let end_own_turn ev (c : card_instance) : bool =
-  match ev with EndTurn player -> !c.owner == player | _ -> false
+  match ev with TurnEnded player -> !c.owner == player | _ -> false
 
 let on_board _ (c : card_instance) : bool =
   Counter.find "On Board" !c.card_counters = 1

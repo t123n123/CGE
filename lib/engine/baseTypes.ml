@@ -26,7 +26,9 @@ and event =
   | CardPlayed of card_instance
   | CardDeath of card_instance
   | CardDrawn of card_instance
-  | EndTurn of int
+  | TurnEnded of int
+  | TurnStarted of int
+  | GameStart
 
 and target = Card of card_instance | Player of int
 

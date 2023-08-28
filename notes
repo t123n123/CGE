@@ -20,3 +20,8 @@ card "Fire Fly" {
     tribes = ["Elemental"]
     battlecry = do add_card_to_hand @owner "Flame Elemental"  
 }
+
+
+the game engine
+    needs game rules
+    runs the game based on rules (maybe that's too much but it would be cool)
