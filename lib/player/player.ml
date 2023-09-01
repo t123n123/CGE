@@ -9,6 +9,8 @@ let string_of_playerstate (player : playerstate) : string =
   ^ "\n\n" ^ "Hand: "
   ^ Card.string_of_cardlist player.hand
   ^ "\n\n" ^ "Deck: "
+  ^ string_of_int (List.length player.deck)
+  ^ " cards"
   ^ Card.string_of_cardlist player.deck
   ^ "\n\n" ^ "Board: "
   ^ Card.string_of_cardlist player.board

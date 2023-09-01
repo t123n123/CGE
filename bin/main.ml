@@ -14,25 +14,39 @@ let hearthstone_rules : CGE.Rules.t =
   }
 
 let game = new_game hearthstone_rules
-
-(* let drawer = Card.make Library.card_drawer player1.player_id
-   let novice1 = Card.make Library.novice player1.player_id
-   let elemental_watcher1 = Card.make Library.elemental_watcher player1.player_id
-   let emer_reaver = Card.make Library.emerald_reaver player1.player_id
-   let arcane_int = Card.make Library.arcane_intelect player1.player_id
-   let auctioneer1 = Card.make Library.auctioneer player1.player_id
-   let auctioneer2 = Card.make Library.auctioneer player2.player_id
-   let elem_watcher = Card.make Library.elemental_watcher player1.player_id
-   let fireball = Card.make Library.fireball player1.player_id *)
 let game = add_card_to_deck 0 Library.card_drawer game
-let game = add_card_to_hand 0 Library.novice game
-let game = add_card_to_hand 1 Library.novice game
+let game = add_card_to_deck 0 Library.novice game
+let game = add_card_to_deck 0 Library.elemental_watcher game
+let game = add_card_to_deck 0 Library.emerald_reaver game
+let game = add_card_to_deck 0 Library.arcane_intelect game
+let game = add_card_to_deck 0 Library.auctioneer game
+let game = add_card_to_deck 0 Library.elemental_watcher game
+let game = add_card_to_deck 0 Library.fireball game
+let game = add_card_to_deck 1 Library.auctioneer game
+let game = add_card_to_deck 1 Library.novice game
+let game = add_card_to_deck 1 Library.novice game
+let game = add_card_to_deck 1 Library.novice game
+
+let rec draw_starting_hand player_id game =
+  if
+    List.length (List.nth game.players player_id).hand
+    < hearthstone_rules.card_draw_rules.starting_hand_size
+  then draw_card player_id game |> draw_starting_hand player_id
+  else game
 
 let () =
   let _ = print_endline @@ string_of_gamestate game in
-  (* let game1 = play_card 0 0 game in
-     let _ = print_endline @@ string_of_gamestate game1 in *)
+  let game = draw_starting_hand 0 game in
+  let game = draw_starting_hand 1 game in
+  let _ = print_endline @@ string_of_gamestate game in
+  let game = draw_card 1 game in
+  let game = draw_card 1 game in
+  let _ = print_endline @@ string_of_gamestate game in
   ()
+
+(* let game1 = play_card 0 0 game in
+   let _ = print_endline @@ string_of_gamestate game1 in *)
+
 (*
   let game2 = lazy (play_card 0 0 (end_turn 1 (end_turn 0 game1))) in
   print_endline @@ string_of_gamestate (Lazy.force game2)

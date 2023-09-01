@@ -32,20 +32,26 @@ let process_event event state =
       else state)
     state triggers
 
-let draw_card (player_nr : int) (players : gamestate) : gamestate =
-  let player = List.nth players.players player_nr in
-  let new_deck = List.tl player.deck in
-  let new_hand = List.hd player.deck :: player.hand in
+let draw_card (player_nr : int) (game : gamestate) : gamestate =
+  let player = List.nth game.players player_nr in
+
+  let new_deck = match player.deck with [] -> [] | _ :: t -> t in
+  let new_hand =
+    match player.deck with [] -> player.hand | h :: _ -> h :: player.hand
+  in
   let state =
     {
-      players with
+      game with
       players =
-        Utils.replace player_nr players.players
+        Utils.replace player_nr game.players
           { player with deck = new_deck; hand = new_hand };
     }
   in
-  let event = CardDrawn (List.hd player.deck) in
-  process_event event state
+  match player.deck with
+  | [] -> state
+  | _ ->
+      let event = CardDrawn (List.hd player.deck) in
+      process_event event state
 
 let play_card (player_nr : int) (card_nr : int) (game : gamestate) : gamestate =
   let player = List.nth game.players player_nr in
