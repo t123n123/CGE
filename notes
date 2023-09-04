@@ -25,3 +25,20 @@ card "Fire Fly" {
 the game engine
     needs game rules
     runs the game based on rules (maybe that's too much but it would be cool)
+
+
+actions:
+    - playing a card 
+    - passing the turn 
+    - attacking 
+    - using specific card abilities (choose one, discover)  
+
+actions can have requirements:
+    - playing a card requires mana 
+    - casting single target removal requires at least a target
+    - attacking requires ability to attack
+
+types of actions: 
+    - instant   apply_function : (gamestate -> gamestate) 
+    - targeted  filter : (target -> bool) apply_function : (target -> action) 
+    - self-target apply_function : (gamestate -> card_instance -> gamestate) 
