@@ -96,6 +96,9 @@ let add_card_to_deck player_number card game =
   let new_players = Utils.replace player_number game.players new_player in
   { game with players = new_players }
 
+let add_cards_to_deck player_number card_list game : gamestate =
+  List.fold_left (Fun.flip (add_card_to_deck player_number)) game card_list
+
 let add_card_to_hand player_number card game =
   let player = List.nth game.players player_number in
   let new_hand = Card.make card player_number :: player.hand in

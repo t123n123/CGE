@@ -14,18 +14,24 @@ let hearthstone_rules : CGE.Rules.t =
   }
 
 let game = new_game hearthstone_rules
-let game = add_card_to_deck 0 Library.card_drawer game
-let game = add_card_to_deck 0 Library.novice game
-let game = add_card_to_deck 0 Library.elemental_watcher game
-let game = add_card_to_deck 0 Library.emerald_reaver game
-let game = add_card_to_deck 0 Library.arcane_intelect game
-let game = add_card_to_deck 0 Library.auctioneer game
-let game = add_card_to_deck 0 Library.elemental_watcher game
-let game = add_card_to_deck 0 Library.fireball game
-let game = add_card_to_deck 1 Library.auctioneer game
-let game = add_card_to_deck 1 Library.novice game
-let game = add_card_to_deck 1 Library.novice game
-let game = add_card_to_deck 1 Library.novice game
+
+let first_deck =
+  [
+    Library.card_drawer;
+    Library.novice;
+    Library.elemental_watcher;
+    Library.emerald_reaver;
+    Library.arcane_intelect;
+    Library.auctioneer;
+    Library.elemental_watcher;
+    Library.fireball;
+  ]
+
+let second_deck =
+  [ Library.auctioneer; Library.novice; Library.novice; Library.novice ]
+
+let game = add_cards_to_deck 0 first_deck game
+let game = add_cards_to_deck 1 second_deck game
 
 let rec draw_starting_hand player_id game =
   if
