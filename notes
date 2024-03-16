@@ -1,5 +1,3 @@
-
-
 on "TurnStart" player 
     player.max_mana = max (player.max_mana + 1, 10)
     player.mana = player.mana 
@@ -21,11 +19,31 @@ card "Fire Fly" {
     battlecry = do add_card_to_hand @owner "Flame Elemental"  
 }
 
+init_game : GameRules -> GameState
+step_game : GameRules -> GameState -> GameState 
+
+EventStack
+
+resolve_stack -> 
+
 
 the game engine
     needs game rules
     runs the game based on rules (maybe that's too much but it would be cool)
 
+Event stack speed depth 
+LOR: 
+-> slow 
+-> fast 
+-> burst / focus ( cannot be played during combat )  
+
+Magic: 
+-> creatures
+-> sorcery
+-> instant 
+-> flash 
+
+Actions should put a event in the event stack 
 
 actions:
     - playing a card 
@@ -42,3 +60,74 @@ types of actions:
     - instant   apply_function : (gamestate -> gamestate) 
     - targeted  filter : (target -> bool) apply_function : (target -> action) 
     - self-target apply_function : (gamestate -> card_instance -> gamestate) 
+
+
+Game State: 
+
+- Game Rules 
+    - How cards do stuff 
+    - HP?
+    - defining Card Types 
+    - When cards become visible  
+    - The rules should be able to specify: 
+        - Solitare 
+        - Hearthstone 
+        - LOR 
+        - Magic 
+        - Pokemon 
+        - YuGiOh
+        - Marvel Snap 
+        - Emulate DOOM 
+        - Chess hearthstone 
+        - Battlegrounds 
+        - Super Auto Pets
+        - anything your mind can come up with 
+- Game Engine 
+    - Card
+    - Card zones 
+    - Visibility
+    - Functions for: 
+        - isOfType (type) 
+    - Card counters ???  
+    - Stack Resolver 
+        - 
+- Game State:
+    - Current Player data 
+    - Card zones 
+    - 
+
+
+let draw_card (player) = 
+    let _ = handle_event( BeforeCardDrawn ) in 
+    let card = player.get_zone(CardZones.deck).pop_card() in 
+    let _ = player.get_zone(CardZones.hand).add_card(card) in 
+    let _ = handle_event( AfterCardDrawn ) in 
+    state 
+
+(* +1/+1 to all allies *)
+on_play = function (state) =
+    state.events.get_event_type ( OnMinionEnterZone (Board) ).add_function 
+        (event) ->  
+            event.source.add_modifier( (Modifiers.Buff (1, 1)) ) 
+
+
+    state.events.get_event_type ( OnCardLeaveZone (Board)).add_function 
+        (event) -> 
+            if event.card == this_card -> 
+                this_card.disable_effects()
+                ... remove +1 +1 buffs from all allied minions
+
+
+
+
+
+Responsibilities:
+- When to check for game win conditions -> Game Rules 
+- Card entities -> Game engine 
+- Card modifiers / attributes (counters, tribes, buffs, stats) -> Game engine 
+- Resources -> Both 
+- Card zone interface -> Game engine 
+- Defining the possible card zones -> Game rules 
+- Defining the event hooks -> Game rules 
+- Handling the events -> Game engine 
+- Aura effects -> Engine?

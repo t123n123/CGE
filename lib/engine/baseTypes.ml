@@ -42,10 +42,13 @@ and playerstate = {
   mana : int;
   max_mana : int;
   player_id : int;
+  (* Should be a card zone structure *)
   deck : card_instance list;
   hand : card_instance list;
   board : card_instance list;
+
 }
 
+
 (* Maybe make a map for each "card zone" for each player*)
-and gamestate = { players : playerstate list; current_player : int }
+and gamestate = { players : playerstate list; current_player : int;}

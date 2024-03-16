@@ -1,4 +1,3 @@
-open BaseTypes
 
 type mana_rules = { max_mana : int; starting_mana : int; mana_per_turn : int }
 type hp_rules = { starting_hp : int; hp_per_turn : int }
