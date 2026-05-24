@@ -1,3 +1,0 @@
-(test
- (name test)
- (libraries CGE alcotest qcheck qcheck-alcotest))
