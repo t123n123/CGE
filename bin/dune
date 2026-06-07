@@ -1,0 +1,6 @@
+(executable
+ (public_name CGE)
+ (name main)
+ (libraries CGE))
+
+(env (dev (flags (:standard -warn-error -A))))
