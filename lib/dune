@@ -1,2 +1,4 @@
 (library
  (name CGE))
+
+(env (dev (flags (:standard -warn-error -A))))
